@@ -16,10 +16,10 @@ class Pipe:
         and the delta is the distance to the lower rectangle
     """
     
-    def __init__(self):
+    def __init__(self, window_width, window_height):
         # Importing window config
-        self.__window_width = get_config_param("window", "width")
-        self.__window_height = get_config_param("window", "height")
+        self.__window_width = window_width
+        self.__window_height = window_height
         
         # Importation of pipe config
         self.__width = get_config_param("pipe", "width")
