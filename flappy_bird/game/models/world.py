@@ -17,6 +17,18 @@ class World:
         # Creating the list of pipes
         self.__pipes = []
         
+    def add_pipe(self, pipe):
+        self.__pipe.append(pipe)
+        
+    def remove_pipe(self, pipe):
+        self.__pipes.remove(pipe)
+        
     # Getters setters
     def get_bird(self):
         return self.__bird
+    def get_pipes(self):
+        return self.__pipes
+    def get_window_width(self):
+        return self.__window_width
+    def get_window_height(self):
+        return self.__window_height
