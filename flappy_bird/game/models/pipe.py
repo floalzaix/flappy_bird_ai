@@ -1,8 +1,8 @@
 import random as rd
 
-from ..config.config import get_config_param
+from config.config_manager import get_config_param
 
-from rectangle import Rectangle
+from models.rectangle import Rectangle
 
 class Pipe:
     """ This class is the illustration of a pipe in the flapy bird
@@ -28,18 +28,24 @@ class Pipe:
         self.__y_min_max_quantum = get_config_param("pipe", "y_min_max_quantum")
         
         # Verification des imports
-        assert self.__y_quantification > self.__y_min_max_quantum, "The pipes quantification must be 2 times higher than the y_min_max"
+        assert self.__y_quantification > self.__y_min_max_quantum + 1, "The pipes quantification must be 2 times higher than the y_min_max"
         
         # Initialising its coords
         self.__x = int(self.__window_width / 100 * get_config_param("pipe", "start_x_pourcentage"))
-        self.__y = (rd.randint(self.__y_quantification - 1 - 2 * self.__y_min_max_quantum) + self.__y_min_max_quantum) * self.__window_height // self.__y_min_max_quantum
+        self.__y = int((rd.randint(0, self.__y_quantification - 2 - 2 * self.__y_min_max_quantum) + self.__y_min_max_quantum) * self.__window_height / self.__y_quantification)
         
         # Initialising its rectangles
-        self.update_rectangles()
+        self.__upper_rect = Rectangle(self.__x, 0, self.__width, self.__y, "green")
+        y2 = self.__y + self.__delta
+        self.__lower_rect = Rectangle(self.__x, y2, self.__width, self.__window_height - y2, "green")
         
     def update_rectangles(self):
         """ Updates the parameters of the upper and lower rectangle of the pipe """
-        self.upper_rect = Rectangle(self.__x, 0, self.__width, self.__y)
-        y2 = self.__y + self.__delta
-        self.lower_rect = Rectangle(self.__x, y2, self.__width, self.__window_height - y2)
+        
+        
+    # Getters setters 
+    def get_upper_rectangle(self):
+        return self.__upper_rect 
+    def get_lower_rectangle(self):
+        return self.__lower_rect
         

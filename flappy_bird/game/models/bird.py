@@ -1,8 +1,8 @@
-from ..config.config import get_config_param
-from rectangle import Rectangle
+from config.config_manager import get_config_param
+from models.rectangle import Rectangle
 
 class Bird:
-    """ This class is the simulation of a bird bying a
+    """ This class is the simulation of a bird being a
         red rectangle
     """
     
@@ -20,8 +20,12 @@ class Bird:
         self.__y = self.__window_height // 2 - self.__height // 2
         
         # Initialisation of the rectangle
-        self.update_rectangle()
+        self.__rectangle = Rectangle(self.__x, self.__y, self.__width, self.__height, "red")
         
     def update_rectangle(self):
-        self.__rectangle = Rectangle(self.__x, self.__y, self.__width, self.__height)
+        """ Updates the rectangle coordinates of the bird """
+        
+    # Getters setters
+    def get_rectangle(self):
+        return self.__rectangle
         

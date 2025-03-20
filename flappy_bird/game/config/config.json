@@ -1,12 +1,20 @@
 {
-    "window": {
-      "width": 1400,
-      "height": 700,
-      "bg": "lightblue",
-      "password": "password123"
-    },
-    "bird": {
-      "width": "DEBUG",
-      "height": "app.log"
-    }
+  "window": {
+    "width": 1400,
+    "height": 700,
+    "bg": "lightblue",
+    "title": "Flappy Bird V1"
+  },
+  "bird": {
+    "width": 20,
+    "height": 20,
+    "start_x_pourcentage": 10
+  },
+  "pipe": {
+    "width": 65,
+    "delta": 180,
+    "y_quantification": 10,
+    "y_min_max_quantum": 1,
+    "start_x_pourcentage": 50
   }
+}

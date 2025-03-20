@@ -1,11 +1,12 @@
 class Rectangle:
     """ A class that manages a rectangle's coords and sizes"""
     
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, color):
         self.__x = x
         self.__y = y
         self.__width = width
         self.__height = height
+        self.__color = color
         
         # Initialisating the 2nd point coordinates
         self.__x1 = self.__x + self.__width
@@ -31,5 +32,7 @@ class Rectangle:
         return self.__x1
     def get_y1(self):
         return self.__y1
+    def get_color(self):
+        return self.__color
         
     
