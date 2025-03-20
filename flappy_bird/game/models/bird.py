@@ -15,6 +15,6 @@ class Bird:
         self.height = get_config_param("bird", "height")
         
         # Calculating initial position
-        self.x = window_width // 10
+        self.x = int(window_width / 100 * get_config_param("bird", "start_x_pourcentage"))
         self.y = window_height // 2 - self.height // 2
         
