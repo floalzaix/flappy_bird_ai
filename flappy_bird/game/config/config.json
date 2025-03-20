@@ -1,0 +1,12 @@
+{
+    "window": {
+      "width": 1400,
+      "height": 700,
+      "bg": "lightblue",
+      "password": "password123"
+    },
+    "bird": {
+      "width": "DEBUG",
+      "height": "app.log"
+    }
+  }
