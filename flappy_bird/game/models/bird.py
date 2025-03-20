@@ -22,8 +22,17 @@ class Bird:
         # Initialisation of the rectangle
         self.__rectangle = Rectangle(self.__x, self.__y, self.__width, self.__height, "red")
         
-    def update_rectangle(self):
+    def __update_rectangle(self, delta_x, delta_y):
         """ Updates the rectangle coordinates of the bird """
+        self.__rectangle.move(delta_x, delta_y)
+        
+    def move(self, delta_x, delta_y):
+        """ Moves the object to the coordinates x + dx and y + dy and 
+            actualises the rectangle position 
+        """
+        self.__x+= delta_x
+        self.__y+= delta_y
+        self.__update_rectangle(delta_x, delta_y)
         
     # Getters setters
     def get_rectangle(self):

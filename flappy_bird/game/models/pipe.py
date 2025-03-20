@@ -39,9 +39,18 @@ class Pipe:
         y2 = self.__y + self.__delta
         self.__lower_rect = Rectangle(self.__x, y2, self.__width, self.__window_height - y2, "green")
         
-    def update_rectangles(self):
+    def __update_rectangles(self, delta_x, delta_y):
         """ Updates the parameters of the upper and lower rectangle of the pipe """
+        self.__upper_rect.move(delta_x, delta_y)
+        self.__lower_rect.move(delta_x, delta_y)
         
+    def move(self, delta_x, delta_y):
+        """ Moves the object to the coord x + delta_x and y + delta_y and 
+            actualises the rectangles 
+        """
+        self.__x+= delta_x
+        self.__y+= delta_y
+        self.__update_rectangles(delta_x, delta_y)
         
     # Getters setters 
     def get_upper_rectangle(self):

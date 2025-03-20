@@ -4,6 +4,8 @@ class Rectangle(UpdateSupport):
     """ A class that manages a rectangle's coords and sizes"""
     
     def __init__(self, x, y, width, height, color):
+        super().__init__()
+        
         self.__x = x
         self.__y = y
         self.__width = width

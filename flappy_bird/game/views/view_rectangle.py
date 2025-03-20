@@ -9,6 +9,8 @@ class ViewRectangle(UpdateListenerCanvas):
     """
     
     def __init__(self, view_world, rectangle):
+        super().__init__(view_world)
+        
         self.__view_world = view_world
         self.__rectangle = rectangle
         

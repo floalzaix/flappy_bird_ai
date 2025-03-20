@@ -26,7 +26,7 @@ class FlappyBird(Tk):
         
         # Creating the world view
         self.__view_world = ViewWorld(self, self.__window_width, self.__window_height, self.__world, self.__window_bg)
-        
+                
         # Starting the views' loop
         self._initialise_views_loop()
         
