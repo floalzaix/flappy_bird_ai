@@ -55,6 +55,27 @@ class UpdateSupport:
         """
         self.update_listeners.remove(update_listener)
         
+class UpdateListenerCanvas(UpdateListener, ABC):
+    """ Same thing than the UpdateListener but for the update being 
+        called in the canvas thread thanks to after. 
+    """
+    
+    def __init__(self, canvas):
+        self.__canvas = canvas
+        
+    def update(self, event):
+        """ Redifinition of the update function so that it calls the 
+            update function in the canvas thread thanks to after
+        """
+        self.__canvas.after(0, self.update_canvas)
+        
+    @abstractmethod
+    def update_canvas(self, event):
+        """ The update methode same as for the UpdateListener. Triggered
+            when the support does so
+        """
+        pass
+        
 class UpdateEvent:
     """ An event class to carry data when the update function of the listener is
         called.
