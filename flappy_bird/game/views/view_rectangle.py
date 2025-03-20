@@ -1,6 +1,8 @@
 from tkinter import Canvas
 
-class ViewRectangle:
+from helpers.update_handler import UpdateListener
+
+class ViewRectangle(UpdateListener):
     """ This is the view of the rectangle object which
         given a Canvas can display itself on it and also
         delete itself and update the rectangle display
@@ -13,6 +15,9 @@ class ViewRectangle:
         # Adding the ractangle to the view
         self.draw()
         
+        # Set listener of the rectangle
+        self.__rectangle.add_update_listener(self)
+        
     def draw(self):
         """ Draws the rectangle on the canvas which is the view of the world """
         self.__rectangle_id = self.__view_world.create_rectangle(self.__rectangle.get_x(), self.__rectangle.get_y(), self.__rectangle.get_x1(), self.__rectangle.get_y1(), fill=self.__rectangle.get_color())
@@ -24,7 +29,7 @@ class ViewRectangle:
         """
         self.__view_world.delete(self.__rectangle_id)
         
-    def update(self):
+    def update(self, event):
         """ Update the view of the rectangle on the Canvas which is the world's view
 
             It aims at the fact that every time a rectangle is moved, this function is

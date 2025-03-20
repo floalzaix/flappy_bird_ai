@@ -1,4 +1,6 @@
-class Rectangle:
+from helpers.update_handler import UpdateSupport, UpdateEvent
+
+class Rectangle(UpdateSupport):
     """ A class that manages a rectangle's coords and sizes"""
     
     def __init__(self, x, y, width, height, color):
@@ -14,6 +16,7 @@ class Rectangle:
         
     def move(self, x, y):
         """ Allows for us to move the rectangle """
+        self.action_listeners(UpdateEvent((self.__x, self.__y), (self.__x + x, self.__y + y)))
         self.__x+= x
         self.__y+= y
         self.__x1+= x
