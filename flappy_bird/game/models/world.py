@@ -1,13 +1,17 @@
+from helpers.update_handler import UpdateSupport, UpdateEvent
+
 from config.config_manager import get_config_param
 
 from models.bird import  Bird
 
-class World:
+class World(UpdateSupport):
     """ Handles the game windows including a bird object and 
         pipes.
     """
     
     def __init__(self, window_width, window_height):
+        super().__init__()
+        
         self.__window_width = window_width
         self.__window_height= window_height
         
@@ -18,7 +22,8 @@ class World:
         self.__pipes = []
         
     def add_pipe(self, pipe):
-        self.__pipe.append(pipe)
+        self.__pipes.append(pipe)
+        self.action_listeners(UpdateEvent(None, pipe))
         
     def remove_pipe(self, pipe):
         self.__pipes.remove(pipe)

@@ -25,9 +25,11 @@ class PipesRolling:
             @raise ? If when moved the pipes hit the bird
         """
         for pipe in self.__world.get_pipes():
-            pipe.move(-3)
-        if self.__rolls == 0:
+            pipe.move(-3, 0)
+            
+        # Creating new pipe
+        if self.__rolls <= 0:
             self.__rolls = self.__rolls_before_new
-            self.add_pipe(Pipe(self.__world.get_window_width(), self.__world.get_window_height()))
+            self.__world.add_pipe(Pipe(self.__world.get_window_width(), self.__world.get_window_height()))
         else:
             self.__rolls-= 1

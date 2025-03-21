@@ -1,15 +1,18 @@
 from tkinter import Canvas
 
+from helpers.update_handler import UpdateListenerCanvas
+
 from models.pipe import Pipe
 
 from views.view_pipe import ViewPipe
 from views.view_bird import ViewBird
 
-class ViewWorld(Canvas):
+class ViewWorld(UpdateListenerCanvas, Canvas):
     """ Thic class is a view of the world object and is a tkinter 's Canvas """
     
     def __init__(self, window, width,  height, world, bg):
-        super().__init__(window, width = width, height = height, bg = bg)
+        UpdateListenerCanvas.__init__(self, self)
+        Canvas.__init__(self, window, width = width, height = height, bg = bg)
         
         self.__window = window
         
@@ -21,6 +24,9 @@ class ViewWorld(Canvas):
         
         # Putting everything to place
         self.pack()
+        
+        # Adding listener
+        world.add_update_listener(self)
         
     def draw(self):
         """ Draws the world's objects calling their functions """
@@ -38,8 +44,14 @@ class ViewWorld(Canvas):
         for view in self.__views_pipes:
             view.delete()
             
-    def update(self):
+    def update_canvas(self, event):
         """ Updates itself so that change like mvt can be seen """
-        self.__view_bird.update()
+        self.__view_bird.update(event)
         for view in self.__views_pipes:
-            view.update()
+            view.update(event)
+            
+        # Adding the new pipe if there is one
+        new = event.get_new()
+        if type(new) == Pipe:
+            new_view = ViewPipe(self, new)
+            self.__views_pipes.append(new_view)

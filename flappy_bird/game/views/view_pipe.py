@@ -1,5 +1,9 @@
 from tkinter import Canvas
 
+from helpers.update_handler import UpdateEvent
+
+from models.pipe import Pipe
+
 from views.view_rectangle import ViewRectangle 
 
 class ViewPipe:
@@ -38,9 +42,10 @@ class ViewPipe:
         self.__upper_view.delete()
         self.__lower_view.delete()
         
-    def update(self):
+    def update(self, event):
         """ Updates itself by calling the rectangles' views methods """
-        self.__upper_view.update()
-        self.__lower_view.update()
+        if type(event.get_new()) == Pipe:
+            self.__upper_view.update(UpdateEvent(None, event.get_new().get_upper_rectangle()))
+            self.__lower_view.update(UpdateEvent(None, event.get_new().get_lower_rectangle()))
         
         

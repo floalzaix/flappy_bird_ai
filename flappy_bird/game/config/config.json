@@ -16,5 +16,8 @@
     "y_quantification": 10,
     "y_min_max_quantum": 1,
     "start_x_pourcentage": 50
+  },
+  "pipes_rolling": {
+    "rolls_before_new" : 80
   }
 }
