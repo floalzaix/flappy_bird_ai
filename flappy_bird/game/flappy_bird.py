@@ -8,6 +8,7 @@ from models.pipe import Pipe
 from views.view_world import ViewWorld
 
 from controllers.pipes_rolling import PipesRolling
+from controllers.gravity import Gravity
 
 class FlappyBird(Tk):
     """"""
@@ -29,7 +30,7 @@ class FlappyBird(Tk):
                         
         # Creating the world view
         self.__view_world = ViewWorld(self, self.__window_width, self.__window_height, self.__world, self.__window_bg)
-                
+        
         # Starting the views' loop
         self._initialise_views_loop()
         
