@@ -27,31 +27,33 @@ class ViewWorld(UpdateListenerCanvas, Canvas):
         
         # Adding listener
         world.add_update_listener(self)
-        
-    def draw(self):
-        """ Draws the world's objects calling their functions """
-        self.__view_bird.draw()
-        for view in self.__views_pipes:
-            view.draw()
-    
-    def delete(self):
-        """ Deletes from this Canvas its elements 
-        
-            @raises Exception if the element is deleted but not drawn in 
-            the first place
-        """
-        self.__view_bird.delete()
-        for view in self.__views_pipes:
-            view.delete()
             
     def update_canvas(self, event):
-        """ Updates itself so that change like mvt can be seen """
-        self.__view_bird.update(event)
-        for view in self.__views_pipes:
-            view.update(event)
-            
+        """ Updates when there is an add or removal of a pipe """
+           
         # Adding the new pipe if there is one
-        new = event.get_new()
-        if type(new) == Pipe:
+        if event.get_id() == "add_pipe":
+            new = event.get_new()
             new_view = ViewPipe(self, new)
             self.__views_pipes.append(new_view)
+            
+        # Removing the pipe if there is one to remove
+        if event.get_id() == "remove_pipe":
+            old = event.get_new()
+            old_view = self.__search_view_pipe(old)
+            old_view.delete()
+            self.__views_pipes.remove(old_view)
+            
+    # Processing functions
+    def __search_view_pipe(self, pipe):
+        """ Searches the view linked to the pipe 
+        
+            @param pipe The pipe 
+            @return The view linked to it
+            @raise ValueError If the view is not found in the 
+                              class pipes' views
+        """
+        for view_pipe in self.__views_pipes:
+            if view_pipe.get_pipe() == pipe:
+                return view_pipe
+        raise ValueError

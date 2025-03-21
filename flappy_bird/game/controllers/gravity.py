@@ -3,6 +3,8 @@ from config.config_manager import get_config_param
 class Gravity:
     """ This class is made to handle the gravity of the bird 
         according to the two parameters : delta_t and g 
+        
+        It also includes the action of jumping 
     """
     
     def __init__(self, world):

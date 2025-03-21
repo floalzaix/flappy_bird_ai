@@ -9,6 +9,7 @@ from views.view_world import ViewWorld
 
 from controllers.pipes_rolling import PipesRolling
 from controllers.gravity import Gravity
+from controllers.keyboard import Keyboard
 
 class FlappyBird(Tk):
     """"""

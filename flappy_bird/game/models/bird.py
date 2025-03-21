@@ -1,4 +1,5 @@
 from config.config_manager import get_config_param
+
 from models.rectangle import Rectangle
 
 class Bird:

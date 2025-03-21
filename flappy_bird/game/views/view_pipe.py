@@ -42,10 +42,8 @@ class ViewPipe:
         self.__upper_view.delete()
         self.__lower_view.delete()
         
-    def update(self, event):
-        """ Updates itself by calling the rectangles' views methods """
-        if type(event.get_new()) == Pipe:
-            self.__upper_view.update(UpdateEvent(None, event.get_new().get_upper_rectangle()))
-            self.__lower_view.update(UpdateEvent(None, event.get_new().get_lower_rectangle()))
+    # Getters setters
+    def get_pipe(self):
+        return self.__pipe
         
         

@@ -86,11 +86,14 @@ class UpdateEvent:
         
     """
     
-    def __init__(self, old, new):
+    def __init__(self, id, old, new):
+        self.__id = id
         self.__old = old
         self.__new = new
         
     # Getters setters
+    def get_id(self):
+        return self.__id
     def get_old(self):
         return self.__old
     def get_new(self):

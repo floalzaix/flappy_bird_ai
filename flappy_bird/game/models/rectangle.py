@@ -18,7 +18,7 @@ class Rectangle(UpdateSupport):
         
     def move(self, x, y):
         """ Allows for us to move the rectangle """
-        self.action_listeners(UpdateEvent(None, self))
+        self.action_listeners(UpdateEvent("move_rectangle", None, self))
         self.__x+= x
         self.__y+= y
         self.__x1+= x

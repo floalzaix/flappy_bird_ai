@@ -38,5 +38,5 @@ class ViewRectangle(UpdateListenerCanvas):
             It aims at the fact that every time a rectangle is moved, this function is
             called in order to update the view.
         """
-        if  type(event.get_new()) == Rectangle:
+        if event.get_id() == "move_rectangle":
             self.__view_world.coords(self.__rectangle_id, self.__rectangle.get_x(), self.__rectangle.get_y(), self.__rectangle.get_x1(), self.__rectangle.get_y1())
