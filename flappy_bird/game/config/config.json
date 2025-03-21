@@ -18,6 +18,10 @@
     "start_x_pourcentage": 50
   },
   "pipes_rolling": {
-    "rolls_before_new" : 80
+    "rolls_before_new": 80,
+    "initial_speed": -3
+  },
+  "time": {
+    "delta_t": 1
   }
 }
