@@ -18,11 +18,11 @@
     "start_x_pourcentage": 50
   },
   "pipes_rolling": {
-    "rolls_before_new": 80,
-    "initial_speed": -3
+    "rolls_before_new": 8,
+    "initial_speed": -3000
   },
   "time": {
-    "delta_t": 0.1
+    "delta_t": 0.01
   },
   "gravity": {
     "g": -9.81,

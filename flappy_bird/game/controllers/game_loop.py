@@ -29,7 +29,8 @@ class GameLoop(Thread):
             try:
                 self.__roller.roll()
                 self.__gravity.action_gravity()
-                time.sleep(self.__delta_t / 100)
+                   
+                time.sleep(self.__delta_t)
             except CollisionError:
                 self.restart()
               

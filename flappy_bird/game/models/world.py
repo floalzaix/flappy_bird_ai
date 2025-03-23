@@ -108,6 +108,15 @@ class World(UpdateSupport, UpdateListener):
         if b_x1 >= p_x and b_x <= p_x1 and (b_y <= p_upper_y or b_y1 >= p_lower_y):
             raise CollisionError(CollisionError.COLLISION_EXITING_PIPE)
         
+        # Testing if crossed a pipe
+        self.__test_crossed_pipe(b_x, p_x1)
+    
+    def __test_crossed_pipe(self, b_x, p_x1):
+        """ Testing if the bird crossed a pipe and if so then removes it """
+        if b_x > p_x1:
+            ######################################################################################## A MODIFIER
+            self.remove_pipe(self.__pipes[0])
+        
     # Getters setters
     def get_bird(self):
         return self.__bird
