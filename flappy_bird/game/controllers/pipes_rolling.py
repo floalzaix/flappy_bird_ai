@@ -8,9 +8,9 @@ class PipesRolling:
     
     def __init__(self, world):
         # Importing pipes rolling config
-        self.__rolls_before_new = get_config_param("pipes_rolling", "rolls_before_new")
         self.__initial_speed = get_config_param("pipes_rolling", "initial_speed")
         self.__delta_t = get_config_param("time", "delta_t")
+        self.__rolls_before_new = (get_config_param("pipes_rolling", "distance_between_pipes") + get_config_param("pipe", "width")) / (abs(self.__initial_speed) * self.__delta_t)
         
         self.__world = world
         

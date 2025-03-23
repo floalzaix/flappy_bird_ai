@@ -5,10 +5,11 @@ from config.config_manager import get_config_param
 from models.collision_error import CollisionError
 from models.bird import Bird
 from models.pipe import Pipe
+from models.score import Score
 
 class World(UpdateSupport, UpdateListener):
     """ Handles the game windows including a bird object and 
-        pipes.
+        pipes and the score.
     """
     
     def __init__(self, window_width, window_height):
@@ -25,6 +26,9 @@ class World(UpdateSupport, UpdateListener):
         pipe = Pipe(self.__window_width, self.__window_height)
         pipe.add_update_listener(self)
         self.__pipes = [pipe]
+        
+        # Keeping the score
+        self.__score = Score()
         
     def add_pipe(self, pipe):
         """ Adds a pipe to the pipes of the world. Actionnate a listener
@@ -59,6 +63,8 @@ class World(UpdateSupport, UpdateListener):
             self.remove_pipe(self.__pipes[0])
             
         self.add_pipe(Pipe(self.__window_width, self.__window_height))
+        
+        self.__score.reset_score()
         
     # Listener
     def update(self, event):
@@ -114,7 +120,7 @@ class World(UpdateSupport, UpdateListener):
     def __test_crossed_pipe(self, b_x, p_x1):
         """ Testing if the bird crossed a pipe and if so then removes it """
         if b_x > p_x1:
-            ######################################################################################## A MODIFIER
+            self.__score.increase_score(1)
             self.remove_pipe(self.__pipes[0])
         
     # Getters setters
@@ -126,3 +132,5 @@ class World(UpdateSupport, UpdateListener):
         return self.__window_width
     def get_window_height(self):
         return self.__window_height
+    def get_score(self):
+        return self.__score

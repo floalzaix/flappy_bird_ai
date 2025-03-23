@@ -32,12 +32,15 @@ class GameLoop(Thread):
                    
                 time.sleep(self.__delta_t)
             except CollisionError:
+                # Handling the Collisions 
                 self.restart()
               
     def stop(self):
+        """ Kills the Thread """
         self.__stop.set()
         
     def restart(self):
+        """ Reset every parameters of the game to 0 """
         self.__roller.reset()
         self.__gravity.reset()
         self.__world.reset()

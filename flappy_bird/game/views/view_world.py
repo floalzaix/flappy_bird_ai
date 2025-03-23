@@ -6,6 +6,7 @@ from models.pipe import Pipe
 
 from views.view_pipe import ViewPipe
 from views.view_bird import ViewBird
+from views.view_score import ViewScore
 
 class ViewWorld(UpdateListenerCanvas, Canvas):
     """ Thic class is a view of the world object and is a tkinter 's Canvas """
@@ -14,11 +15,12 @@ class ViewWorld(UpdateListenerCanvas, Canvas):
         UpdateListenerCanvas.__init__(self, self)
         Canvas.__init__(self, window, width = width, height = height, bg = bg)
         
-        self.__window = window
         self.__world = world
+        self.__width = width
+        self.__height = height
         
         # Handling bird's view
-        self.__view_bird = ViewBird(self, world.get_bird())
+        ViewBird(self, world.get_bird())
         
         # Creating a view_pipe list
         self.__views_pipes = [] 
@@ -30,6 +32,9 @@ class ViewWorld(UpdateListenerCanvas, Canvas):
         
         # Adding listener
         world.add_update_listener(self)
+        
+        # Show score
+        ViewScore(self, self.__world.get_score())
             
     def update_canvas(self, event):
         """ Updates when there is an add or removal of a pipe """
@@ -60,3 +65,9 @@ class ViewWorld(UpdateListenerCanvas, Canvas):
             if view_pipe.get_pipe() == pipe:
                 return view_pipe
         raise ValueError
+    
+    # Getters setters
+    def get_width(self):
+        return self.__width
+    def get_height(self):
+        return self.__height

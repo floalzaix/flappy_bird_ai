@@ -3,7 +3,7 @@
     "width": 1400,
     "height": 700,
     "bg": "lightblue",
-    "title": "Flappy Bird V1"
+    "title": "Flappy Bird V2"
   },
   "bird": {
     "width": 20,
@@ -11,26 +11,29 @@
     "start_x_pourcentage": 10
   },
   "pipe": {
-    "width": 65,
-    "delta": 180,
-    "y_quantification": 10,
-    "y_min_max_quantum": 1,
-    "start_x_pourcentage": 50
+    "width": 52,
+    "delta": 160,
+    "y_quantification": 5,
+    "start_x_pourcentage": 80
   },
   "pipes_rolling": {
-    "rolls_before_new": 8,
-    "initial_speed": -3000
+    "distance_between_pipes": 250,
+    "initial_speed": -180
   },
   "time": {
     "delta_t": 0.01
   },
   "gravity": {
-    "g": -9.81,
-    "weight": 0.1,
-    "jump_a": 1000,
-    "jump_a_duration": 0.1
+    "g": -981,
+    "weight": 2,
+    "jump_a": 60000,
+    "jump_a_duration": 0.01
   },
   "keyboard": {
     "key" : "space"
+  },
+  "score": {
+    "width_pourcentage": 10,
+    "top_padding": 50
   }
 }

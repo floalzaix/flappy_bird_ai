@@ -13,12 +13,10 @@ from controllers.keyboard import Keyboard
 from controllers.game_loop import GameLoop
 
 class FlappyBird(Tk):
-    """"""
+    """ The classical Flappy Bird game ! """
     
     def __init__(self):
         super().__init__()
-        
-        # Window deassociation ?
         
         # Importing the window config
         self.__window_width = get_config_param("window", "width")
@@ -35,7 +33,7 @@ class FlappyBird(Tk):
         # Creating the world view
         self.__view_world = ViewWorld(self, self.__window_width, self.__window_height, self.__world, self.__window_bg)
         
-        # Setting up actionners
+        # Setting up actionners 
         self.__roller = PipesRolling(self.__world)
         self.__gravity = Gravity(self.__world)
         self.__keyboard = Keyboard(self.__gravity, self.__view_world)

@@ -29,14 +29,10 @@ class Pipe(UpdateSupport):
         self.__width = get_config_param("pipe", "width")
         self.__delta = get_config_param("pipe", "delta")
         self.__y_quantification = get_config_param("pipe", "y_quantification")
-        self.__y_min_max_quantum = get_config_param("pipe", "y_min_max_quantum")
-        
-        # Verification des imports
-        assert self.__y_quantification > self.__y_min_max_quantum + 1, "The pipes quantification must be 2 times higher than the y_min_max"
         
         # Initialising its coords
         self.__x = int(self.__window_width / 100 * get_config_param("pipe", "start_x_pourcentage"))
-        self.__y = int((rd.randint(0, self.__y_quantification - 2 - 2 * self.__y_min_max_quantum) + self.__y_min_max_quantum) * self.__window_height / self.__y_quantification)
+        self.__y = int(rd.randint(1, self.__y_quantification) * self.__window_height / (self.__y_quantification + 1) - self.__delta / 2)
         
         # Initialising its rectangles
         self.__upper_rect = Rectangle(self.__x, 0, self.__width, self.__y, "green")

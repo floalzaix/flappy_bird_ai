@@ -1,3 +1,36 @@
+""" ALZAIX Florian
+
+    Similarly to Java, these class are intented to solve the 
+    matter of event handling. 
+    
+    There are meant to be used when an action is done and an 
+    this action must have multiple consequences elsewhere.
+    
+    The class which triggers the event is a SUPPORT.
+    
+    The classes which must react to the event are the LISTENERS.
+    
+    ***
+    HOW TO USE =>
+    As a user the class that needs to triggers an event must 
+    extend th support class and call its constructor. For the
+    class that reacts to the event, it must extend the one of the 
+    listeners class and add it self as a listener to the support
+    ***
+    
+    Here, the support calls every update method of the listeners
+    it is the function action_listeners.
+    
+    There are two types of listeners : the simple one which just
+    reacts to the trigger overriding the method UPDATE and the 
+    canvas one which executes the same things but in the tkinter
+    loop and overrides UPDATE_CANVAS instead.
+    
+    CAREFUL : don't override the update method when extending 
+    th UpdateListenerCanvas it won't be called in the tkinter 
+    thread no more.
+"""
+
 from abc import ABC, abstractmethod
 
 class UpdateListener(ABC):
