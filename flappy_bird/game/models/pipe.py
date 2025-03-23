@@ -1,10 +1,12 @@
 import random as rd
 
+from helpers.update_handler import UpdateEvent, UpdateSupport
+
 from config.config_manager import get_config_param
 
 from models.rectangle import Rectangle
 
-class Pipe:
+class Pipe(UpdateSupport):
     """ This class is the illustration of a pipe in the flapy bird
         game. It thought to handle the dimensions and the mouvement
         of the pipe.
@@ -17,6 +19,8 @@ class Pipe:
     """
     
     def __init__(self, window_width, window_height):
+        super().__init__()
+        
         # Importing window config
         self.__window_width = window_width
         self.__window_height = window_height
@@ -46,11 +50,15 @@ class Pipe:
         
     def move(self, delta_x, delta_y):
         """ Moves the object to the coord x + delta_x and y + delta_y and 
-            actualises the rectangles 
+            actualises the rectangles + action the listeners (being the world) 
+            which will test for collisions
         """
         self.__x+= delta_x
         self.__y+= delta_y
         self.__update_rectangles(delta_x, delta_y)
+        
+        # Actionning the listeners
+        self.action_listeners(UpdateEvent("move_pipe", None, self))
         
     # Getters setters 
     def get_upper_rectangle(self):

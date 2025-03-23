@@ -31,6 +31,7 @@ class ViewRectangle(UpdateListenerCanvas):
             @raise Exception When the rectangle is not on the Canvas
         """
         self.__view_world.delete(self.__rectangle_id)
+        self.__rectangle.remove_update_listener(self)
         
     def update_canvas(self, event):
         """ Update the view of the rectangle on the Canvas which is the world's view

@@ -10,12 +10,15 @@ from views.view_world import ViewWorld
 from controllers.pipes_rolling import PipesRolling
 from controllers.gravity import Gravity
 from controllers.keyboard import Keyboard
+from controllers.game_loop import GameLoop
 
 class FlappyBird(Tk):
     """"""
     
     def __init__(self):
         super().__init__()
+        
+        # Window deassociation ?
         
         # Importing the window config
         self.__window_width = get_config_param("window", "width")
@@ -31,6 +34,15 @@ class FlappyBird(Tk):
                         
         # Creating the world view
         self.__view_world = ViewWorld(self, self.__window_width, self.__window_height, self.__world, self.__window_bg)
+        
+        # Setting up actionners
+        self.__roller = PipesRolling(self.__world)
+        self.__gravity = Gravity(self.__world)
+        self.__keyboard = Keyboard(self.__gravity, self.__view_world)
+        
+        # Setting up the thread game
+        self.__game_loop = GameLoop(self.__roller, self.__gravity, self.__world)
+        self.__game_loop.start()
         
         # Starting the views' loop
         self._initialise_views_loop()

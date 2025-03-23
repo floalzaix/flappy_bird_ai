@@ -26,6 +26,7 @@
   },
   "gravity": {
     "g": -9.81,
+    "weight": 0.1,
     "jump_a": 1000,
     "jump_a_duration": 0.1
   },

@@ -15,12 +15,15 @@ class ViewWorld(UpdateListenerCanvas, Canvas):
         Canvas.__init__(self, window, width = width, height = height, bg = bg)
         
         self.__window = window
+        self.__world = world
         
         # Handling bird's view
         self.__view_bird = ViewBird(self, world.get_bird())
         
         # Creating a view_pipe list
         self.__views_pipes = [] 
+        for pipe in self.__world.get_pipes():
+            self.__views_pipes.append(ViewPipe(self, pipe))
         
         # Putting everything to place
         self.pack()

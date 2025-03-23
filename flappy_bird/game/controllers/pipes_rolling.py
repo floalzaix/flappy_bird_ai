@@ -15,7 +15,7 @@ class PipesRolling:
         self.__world = world
         
         # Parameters 
-        self.__rolls = self.__rolls_before_new
+        self.reset()
         
     def roll(self):
         """ Meant to roll one time the pipes meaning to make them come -3 
@@ -35,3 +35,7 @@ class PipesRolling:
             self.__world.add_pipe(Pipe(self.__world.get_window_width(), self.__world.get_window_height()))
         else:
             self.__rolls-= 1
+            
+    def reset(self):
+        """ Reset the pipes rolling meaning reset the number of rolls """
+        self.__rolls = self.__rolls_before_new
