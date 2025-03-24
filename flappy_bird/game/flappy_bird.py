@@ -8,14 +8,14 @@ from models.pipe import Pipe
 from views.view_world import ViewWorld
 
 from controllers.pipes_rolling import PipesRolling
-from controllers.gravity import Gravity
+from controllers.gravity import Gravity 
 from controllers.keyboard import Keyboard
 from controllers.game_loop import GameLoop
 
 class FlappyBird(Tk):
     """ The classical Flappy Bird game ! """
     
-    def __init__(self):
+    def __init__(self):                                                     
         super().__init__()
         
         # Importing the window config
