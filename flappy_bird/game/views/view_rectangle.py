@@ -3,6 +3,7 @@ from tkinter import Canvas
 from helpers.update_handler import UpdateListenerCanvas
 
 from models.rectangle import Rectangle
+
 class ViewRectangle(UpdateListenerCanvas):
     """ This is the view of the rectangle object which
         given a Canvas can display itself on it and also

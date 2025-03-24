@@ -116,7 +116,6 @@ class UpdateEvent:
         old is the former data
         
         new is the new data
-        
     """
     
     def __init__(self, id, old, new):

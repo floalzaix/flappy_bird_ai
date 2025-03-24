@@ -25,6 +25,10 @@ class QAlgo:
         # The matrice (which is a dict)
         self.__q = {}
         
+        # To storing the previous state and action
+        self.__previous_state = None
+        self.__previous_action = None
+        
     def quantification_state(self, values):
         """ Quantifies the state given the game parameters. The parameters
             must be integer float or string but not arrays or tab or dict
@@ -44,14 +48,14 @@ class QAlgo:
                  
         """
         assert len(values) == self.__nb_params, "Error the quantification needs to have two arrays the same sizes"
-        return (values[i] // self.__quantums[i] for i in range(self.__nb_params))
+        return tuple(values[i] // self.__quantums[i] for i in range(self.__nb_params))
         
     def get_g_value(self, state, action):
         """ Gets the q values in the matrix of a given 
             2-uple (state, action)    
         """
-        # if state not in self.__q: CHECK
-            
+        if state not in self.__q.keys(): 
+            self.__q[state] = [0, 0]
         return self.__q[state][action]
     
     def choose_next_action(self, state):
@@ -65,7 +69,7 @@ class QAlgo:
                          
             @return The next action discovery or explotation
         """
-        if uniform(0, 1) < 1 - self.__epsilon:
+        if uniform(0, 1) <= self.__epsilon:
             return choice([0, 1]) # CHECK
         
         return argmax(self.__q.get(state, [0, 1]))
@@ -84,16 +88,16 @@ class QAlgo:
                 q(state, action) = q(state, action) + alpha * (reward + gamme * q(next_state, action_max) + q(state, action))
         """
         qa = self.get_g_value(state, action)
-        action_max = argmax(self.__q.get(next_state)) # CHECK
+        action_max = argmax(self.__q.get(next_state))
         qna = self.get_g_value(next_state, action_max)
         
         # Updating matrix
-        self.__q[state, action] = qa + self.__alpha * (reward + self.__gamma * qna + qa)
+        self.__q[state][action] = qa + self.__alpha * (reward + self.__gamma * qna + qa)
         
     def execute(self, game_params, reward):
         """ Executes the algorithm : 
         
-            * Quantifies the states
+            * Quantifies the state
             * Chooses the next action according to espilon and the previous
               ones
             * Updates the matrix accordingly to past decisions
@@ -103,14 +107,14 @@ class QAlgo:
             @returns The choosen action
         """
         
-        # Quantifying the states
+        # Quantifying the state
         state = self.quantification_state(game_params)
         
         # Choosing the next action
         action = self.choose_next_action(state)
         
         # Updating the matrix
-        if hasattr(self, "__previous_state") and hasattr(self, "__previous_action"):
+        if self.__previous_state != None and self.__previous_action != None:
             self.update_q_matrix(self.__previous_state, reward, self.__previous_action, state)
             
             # Updating epsilon 
@@ -121,6 +125,15 @@ class QAlgo:
         self.__previous_action = action
         
         return action
+
+    def play(self, game_params):
+        print(self.__q)
+        """ Allows for the user to play without training the algo """
+        # Quantifying the state
+        state = self.quantification_state(game_params)
+        
+        # Choosing the next action
+        return self.choose_next_action(state)
     
     def reset_epsilon(self):
         """ Sets the epsilon of the class to its original value """

@@ -1,14 +1,11 @@
 {
-  "q-algo": {
+  "q_algo": {
     "alpha": 0.3,
     "gamma": 0.7,
     "start_epsilon": 1,
     "decay_epsilon": 0.99,
     "min_epsilon": 0.05,
-    "nb_params": 5,
-    "quantums": [10, 10, 10, 10, 10]
-  },
-  "trainer": {
-    "trains_by_episode": 1000
+    "nb_params": 2,
+    "quantums": [5, 5]
   }
 }

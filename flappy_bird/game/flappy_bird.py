@@ -1,9 +1,13 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+
 from tkinter import Tk
 
-from config.config_manager import get_config_param
+from game.config.config_manager import get_config_param
 
 from models.world import World
-from models.pipe import Pipe
 
 from views.view_world import ViewWorld
 
@@ -54,15 +58,22 @@ class FlappyBird:
         """ Starts the game as a normal game """
         self.__game_loop.start()
         
-    def step(self):
+    def step(self, action):
         """ Makes a step un the game """
+        assert action <= 1 or action >= 0, "Invalid action in the flappy bird's step !"
+        if action == 1:
+            self.__gravity.bird_jump()
         return self.__game_loop.step()
+    
+    def reset(self):
+        """ Resets the rolling pipes, the gravity and the world"""
+        self.__game_loop.reset()
     
     # Getters setters
     def get_world(self):
         return self.__world
+    def get_gravity(self):
+        return self.__gravity
+    def get_game_loop(self):
+        return self.__game_loop
         
-game = FlappyBird()
-game.create_game_logic()
-game.start_game()
-game.create_window()

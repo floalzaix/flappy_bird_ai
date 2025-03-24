@@ -1,6 +1,6 @@
 from helpers.update_handler import UpdateSupport, UpdateEvent, UpdateListener
 
-from config.config_manager import get_config_param
+from game.config.config_manager import get_config_param
 
 from models.collision_error import CollisionError
 from models.bird import Bird

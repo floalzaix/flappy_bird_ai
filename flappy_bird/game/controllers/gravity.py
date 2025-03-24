@@ -1,4 +1,4 @@
-from config.config_manager import get_config_param
+from game.config.config_manager import get_config_param
 
 class Gravity:
     """ This class is made to handle the gravity of the bird 

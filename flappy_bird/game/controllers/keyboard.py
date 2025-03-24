@@ -1,4 +1,4 @@
-from config.config_manager import get_config_param
+from game.config.config_manager import get_config_param
 
 class Keyboard:
     """ Manages the keyboard's inputs of a view_world 

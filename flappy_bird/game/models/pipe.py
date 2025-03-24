@@ -2,7 +2,7 @@ import random as rd
 
 from helpers.update_handler import UpdateEvent, UpdateSupport
 
-from config.config_manager import get_config_param
+from game.config.config_manager import get_config_param
 
 from models.rectangle import Rectangle
 
@@ -57,6 +57,14 @@ class Pipe(UpdateSupport):
         self.action_listeners(UpdateEvent("move_pipe", None, self))
         
     # Getters setters 
+    def get_x(self):
+        return self.__x
+    def get_y(self):
+        return self.__y
+    def get_width(self):
+        return self.__width
+    def get_delta(self):
+        return self.__delta
     def get_upper_rectangle(self):
         return self.__upper_rect 
     def get_lower_rectangle(self):

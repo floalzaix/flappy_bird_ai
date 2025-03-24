@@ -1,6 +1,6 @@
 from helpers.update_handler import UpdateSupport, UpdateEvent
 
-from config.config_manager import get_config_param
+from game.config.config_manager import get_config_param
 
 from models.rectangle import Rectangle
 

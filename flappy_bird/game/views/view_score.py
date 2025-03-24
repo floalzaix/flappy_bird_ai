@@ -1,4 +1,4 @@
-from config.config_manager import get_config_param
+from game.config.config_manager import get_config_param
 
 from helpers.update_handler import UpdateListenerCanvas
 
