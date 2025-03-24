@@ -13,8 +13,8 @@ class CollisionError(Exception):
     
     COLLISION_SKY = 0
     COLLISION_GROUND = 1
-    COLLISION_ENTERING_PIPE = 3
-    COLLISION_EXITING_PIPE = 4
+    COLLISION_ENTERING_PIPE = 2
+    COLLISION_EXITING_PIPE = 3
     
     def __init__(self, type):
         super().__init__("Collision")

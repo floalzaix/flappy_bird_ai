@@ -26,14 +26,18 @@ class GameLoop(Thread):
     def run(self):
         """ The loop """
         while not self.__stop.is_set():
-            try:
-                self.__roller.roll()
-                self.__gravity.action_gravity()
-                   
-                time.sleep(self.__delta_t)
-            except CollisionError:
-                # Handling the Collisions 
-                self.restart()
+            self.step()
+            time.sleep(self.__delta_t)
+                
+    def step(self):
+        """ Makes a step in the game """
+        try:
+            self.__roller.roll()
+            self.__gravity.action_gravity()
+        except CollisionError as ce:
+            # Handling the Collisions 
+            self.restart()
+            return ce.get_type()
               
     def stop(self):
         """ Kills the Thread """

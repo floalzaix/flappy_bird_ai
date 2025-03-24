@@ -10,12 +10,15 @@ class QAlgo:
         @param epsilon  The discovery rate exploration(1) -  exploitation(0) 
     """
     
-    def __init__(self, alpha, gamma, epsilon, nb_params, quantums):
+    def __init__(self, alpha, gamma, start_epsilon, decay_epsilon, min_epsilon, nb_params, quantums):
         assert len(quantums) == nb_params, "Errors size don't match"
         
         self.__alpha = alpha
         self.__gamma = gamma
-        self.__epsilon = epsilon
+        self.__epsilon = start_epsilon
+        self.__start_epsilon = start_epsilon
+        self.__decay_epsilon = decay_epsilon
+        self.__min_epsilon = min_epsilon
         self.__nb_params = nb_params
         self.__quantums = quantums
         
@@ -25,7 +28,7 @@ class QAlgo:
     def quantification_state(self, values):
         """ Quantifies the state given the game parameters. The parameters
             must be integer float or string but not arrays or tab or dict
-            because a tuple is const
+            because a tuple is const and so is the key of a dict too
         
             @param values   The values like speed, position, ...
             @param quantums  The parameters which will divide the values
@@ -110,8 +113,15 @@ class QAlgo:
         if hasattr(self, "__previous_state") and hasattr(self, "__previous_action"):
             self.update_q_matrix(self.__previous_state, reward, self.__previous_action, state)
             
+            # Updating epsilon 
+            self.__epsilon = max(self.__min_epsilon, self.__epsilon * self.__decay_epsilon)
+            
         # Storing the state and the action 
         self.__previous_state = state
         self.__previous_action = action
         
         return action
+    
+    def reset_epsilon(self):
+        """ Sets the epsilon of the class to its original value """
+        self.__epsilon = self.__start_epsilon
