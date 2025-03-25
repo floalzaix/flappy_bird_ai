@@ -1,11 +1,11 @@
 {
   "q_algo": {
     "alpha": 0.3,
-    "gamma": 0.7,
+    "gamma": 0.9,
     "start_epsilon": 1,
-    "decay_epsilon": 0.99,
-    "min_epsilon": 0.05,
-    "nb_params": 2,
-    "quantums": [5, 5]
+    "decay_epsilon": 0.999999,
+    "min_epsilon": 0.001,
+    "nb_params": 3,
+    "quantums": [50, 7, 100]
   }
 }

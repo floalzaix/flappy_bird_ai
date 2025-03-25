@@ -22,7 +22,7 @@ class FlappyBirdAPI:
         pipe_center_x = pipe.get_x() + pipe.get_width() // 2
         pipe_center_y = pipe.get_y() + pipe.get_delta() // 2
         
-        return (pipe_center_x - bird_center_x, pipe_center_y - bird_center_y)
+        return (pipe_center_x - bird_center_x, pipe_center_y - bird_center_y, self.__flappy_bird.get_gravity().get_v_y())
         
     def step(self, action):
         """ Execute a step of the game 

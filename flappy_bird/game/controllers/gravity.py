@@ -44,3 +44,7 @@ class Gravity:
         """ Resets the gravity which means setting the params to 0 """
         self.__v = 0
         self.__jump_a_time_left = 0
+        
+    # Getters setters
+    def get_v_y(self):
+        return self.__v

@@ -62,7 +62,7 @@ game = FlappyBird()
 game_api = FlappyBirdAPI(game)
 ai = ReinforcementAI(game_api)
 
-ai.train(100, False)
+ai.train(200000, False)
 
 game_api.start()
 ai.show()

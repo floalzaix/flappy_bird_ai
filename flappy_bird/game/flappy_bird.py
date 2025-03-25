@@ -2,6 +2,7 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from tkinter import Tk
 
@@ -76,4 +77,3 @@ class FlappyBird:
         return self.__gravity
     def get_game_loop(self):
         return self.__game_loop
-        

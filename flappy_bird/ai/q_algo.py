@@ -1,4 +1,4 @@
-from random import uniform, choice
+from random import uniform, choice, sample
 from numpy import argmax
 
 class QAlgo:
@@ -9,6 +9,8 @@ class QAlgo:
         @param gamme    How much it values the future rewards (0 - 1)
         @param epsilon  The discovery rate exploration(1) -  exploitation(0) 
     """
+    
+    COUNTER_SHOW_DATA = 1000000
     
     def __init__(self, alpha, gamma, start_epsilon, decay_epsilon, min_epsilon, nb_params, quantums):
         assert len(quantums) == nb_params, "Errors size don't match"
@@ -28,6 +30,19 @@ class QAlgo:
         # To storing the previous state and action
         self.__previous_state = None
         self.__previous_action = None
+        
+        # Counter before checking the data
+        self.__counter = QAlgo.COUNTER_SHOW_DATA
+        
+    def _show_data(self):
+        """ A function to show a simple of the kind of data in the 
+            q matrix
+        """
+        if self.__counter <= 0:
+            print("Data simple : ", sample(list(self.__q.items()), 10))
+            self.__counter = QAlgo.COUNTER_SHOW_DATA
+            
+        self.__counter-= 1
         
     def quantification_state(self, values):
         """ Quantifies the state given the game parameters. The parameters
@@ -54,7 +69,7 @@ class QAlgo:
         """ Gets the q values in the matrix of a given 
             2-uple (state, action)    
         """
-        if state not in self.__q.keys(): 
+        if state not in self.__q: 
             self.__q[state] = [0, 0]
         return self.__q[state][action]
     
@@ -92,7 +107,7 @@ class QAlgo:
         qna = self.get_g_value(next_state, action_max)
         
         # Updating matrix
-        self.__q[state][action] = qa + self.__alpha * (reward + self.__gamma * qna + qa)
+        self.__q[state][action] = qa + self.__alpha * (reward + self.__gamma * qna - qa)
         
     def execute(self, game_params, reward):
         """ Executes the algorithm : 
@@ -124,10 +139,12 @@ class QAlgo:
         self.__previous_state = state
         self.__previous_action = action
         
+        # Showing data
+        self._show_data()
+        
         return action
 
     def play(self, game_params):
-        print(self.__q)
         """ Allows for the user to play without training the algo """
         # Quantifying the state
         state = self.quantification_state(game_params)

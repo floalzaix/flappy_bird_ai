@@ -23,12 +23,23 @@ class Trainer:
             # Step in the game + reward
             reward = 0
             
+            if action == 1:
+                reward-= 10
+                
+            #### REVOIR notamment au niveau des plus de 5 sauts
+            
             collision = self.__game_api.step(action)
             if collision != None:
-                reward = -1000
+                reward = -1000000
                 n+= 1
                 
                 # Feedback
                 print("Episode num : ", n, " / ", nb_episodes)
             
-            reward+= 1 / math.sqrt(data[0]**2 + data[1]**2)
+            res = math.sqrt(data[1]**2)
+            if res <= 1 and res >= 0:
+                reward+= 1000
+            elif res <= 30 and res > 1:
+                reward+=  30 / res
+            else:
+                reward-= res // 30
