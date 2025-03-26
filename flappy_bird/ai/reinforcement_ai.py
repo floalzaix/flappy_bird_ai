@@ -19,7 +19,7 @@ from saves.saver import Saver
 class ReinforcementAI(UpdateListener):
     """ The AI which trains on a game like Flappy Bird based on Q-Learning """
     
-    def __init__(self, trainer, mem):
+    def __init__(self, trainer):
         # Importing configuration
         self.__nb_actions = get_config_param("q_algo", "nb_actions")
         self.__alpha = get_config_param("q_algo", "alpha")
@@ -77,14 +77,19 @@ class ReinforcementAI(UpdateListener):
     def show(self):
         """ Shows it self in a window calling the app show method """
         self.__game_api.show()
-        
+    
+# Game     
 game = FlappyBird()
-game_api = FlappyBirdAPI(game, get_config_param("api", "episodes_before_stats"))
+game_api = FlappyBirdAPI(game)
 trainer = FlappyBirdTrainer(game_api)
-ai = ReinforcementAI(trainer, False)
 
+# AI ! 
+ai = ReinforcementAI(trainer)
+
+## Training
 ai.train(200000, False)
 
+# Simulating a game to see how ai does
 game_api.start()
 ai.show()
         

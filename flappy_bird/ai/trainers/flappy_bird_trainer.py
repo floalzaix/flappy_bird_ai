@@ -41,4 +41,4 @@ class FlappyBirdTrainer(Trainer):
                 reward-= res // 30
                 
             # Show stats
-            self._game_api.show_stats(n)
+            self._game_api.calculate_stats(n)

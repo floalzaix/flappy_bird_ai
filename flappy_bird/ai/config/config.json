@@ -11,9 +11,9 @@
   },
   "saver": {
     "file_name": "ai/saves/save.txt",
-    "episode_counter_save": 5000
+    "episode_counter_save": 1000
   },
   "api": {
-    "episodes_before_stats": 5000
+    "episodes_before_calc_stats_reset_data": 1000
   }
 }

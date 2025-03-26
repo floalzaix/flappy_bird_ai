@@ -128,13 +128,13 @@ class QAlgo:
         self.__previous_action = action
         
         # Saving data
-        self.__saver.save_data(self.__q, num_episodes, self.__epsilon, get_stats)
+        self.__saver.save_data(self.__q, num_episodes, self.__alpha, self.__epsilon, get_stats)
         
         return action
     
     def load_q_matrix(self):
         """ Loads the q mtrix and epsilon from a file """
-        num_episodes, self.__epsilon, self.__q = self.__saver.read_q_matrix(self.__start_epsilon)
+        num_episodes, self.__alpha, self.__epsilon, self.__q = self.__saver.read_q_matrix()
         return num_episodes
 
     def play(self, game_params):
