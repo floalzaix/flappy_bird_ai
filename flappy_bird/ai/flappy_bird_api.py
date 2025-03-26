@@ -30,7 +30,8 @@ class FlappyBirdAPI:
             print("Pipe dist => mean : " + str(data[0][0]) + "\t min : " + str(data[0][1]) + "\t max : " + str(data[0][2]) + "\t std : " + str(data[0][3]))
             print("Bird y => mean : " + str(data[1][0]) + "\t min : " + str(data[1][1]) + "\t max : " + str(data[1][2]) + "\t std : " + str(data[1][3]))
             print("Bird y velocity => mean : " + str(data[2][0]) + "\t min : " + str(data[2][1]) + "\t max : " + str(data[2][2]) + "\t std : " + str(data[2][3]))
-            sleep(2)
+            print("Score stats => mean : " + str(data[3][0]) + "\t min : " + str(data[3][1]) + "\t max : " + str(data[3][2]) + "\t std : " + str(data[3][3]))
+            sleep(1)
         elif num_episodes % self.__episode_counter_stats != 0:
             self.__counter_stats = 0
         
@@ -46,12 +47,12 @@ class FlappyBirdAPI:
         pipe_center_x = pipe.get_x() + pipe.get_width() // 2
         pipe_center_y = pipe.get_y() + pipe.get_delta() // 2
         
-        res = (pipe_center_x - bird_center_x, pipe_center_y - bird_center_y, self.__flappy_bird.get_gravity().get_v_y())
+        score = world.get_score()
         
         # Storring data
-        self.__datas.append(res)
+        self.__datas.append((pipe_center_x - bird_center_x, pipe_center_y - bird_center_y, self.__flappy_bird.get_gravity().get_v_y()), score)
         
-        return res
+        return (pipe_center_x - bird_center_x, pipe_center_y - bird_center_y, self.__flappy_bird.get_gravity().get_v_y())
     
     def get_game_stat(self):
         """ Calculate the statistics of the game's parameters : pipe's dist,
@@ -82,7 +83,14 @@ class FlappyBirdAPI:
         y_v_stats.append(np.max(data[:, 2]))
         y_v_stats.append(np.std(data[:, 2]))
         
-        return (dist_pipe_stats, bird_stats, y_v_stats)
+        # Score stats
+        score_stats = []
+        score_stats.append(np.mean(data[:, 3]))
+        score_stats.append(np.min(data[:, 3]))
+        score_stats.append(np.max(data[:, 3]))
+        score_stats.append(np.std(data[:, 3]))
+        
+        return (dist_pipe_stats, bird_stats, y_v_stats, score_stats)
         
     def step(self, action):
         """ Execute a step of the game 
