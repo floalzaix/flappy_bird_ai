@@ -3,8 +3,12 @@ from datetime import datetime
 class Saver:
     """ Stores data into a file. Specifically designed for q matrices """
     
-    def __init__(self, file_name):
+    def __init__(self, file_name, episode_counter_save):
         self.__file_name = file_name
+        
+        # Counters for saving
+        self.__episode_counter_save = episode_counter_save
+        self.__counter_save = 0
         
     def write_q_matrix(self, q, num_epdisodes_done, epsilon):
         """ Storres the q matrix for a certain number of episodes dones"""
@@ -56,3 +60,11 @@ class Saver:
                 line = file.readline()
                 
         return num_episodes, epsilon, d
+    
+    def save_data(self, q, num_episodes, epsilon):
+        """ Saves periodicaly QAlgo.COUNTER_SAVE """
+        if num_episodes % self.__episode_counter_save == 0 and self.__counter_save == 0:
+            self.__counter_save = 1
+            self.write_q_matrix(q, num_episodes, epsilon)
+        elif num_episodes % self.__episode_counter_save == 1:
+            self.__counter_save = 0

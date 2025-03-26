@@ -31,11 +31,13 @@ class ReinforcementAI(UpdateListener):
         self.__min_epsilon = get_config_param("q_algo", "min_epsilon")
         self.__nb_params = get_config_param("q_algo", "nb_params")
         self.__quatums = get_config_param("q_algo", "quantums")
-        self.__file_name = get_config_param("q_algo", "file_name")
+        
+        self.__file_name = get_config_param("saver", "file_name")
+        self.__episode_counter_save = get_config_param("saver", "episode_counter_save") # Episodes counter before save
+        self.__saver = Saver(self.__file_name, self.__episode_counter_save)
         
         self.__game_api = game_api
         
-        self.__saver = Saver(self.__file_name)
         self.__q_algo = QAlgo(self.__alpha, self.__gamma, self.__start_epsilon, self.__decay_epsilon, self.__min_epsilon, self.__nb_params, self.__quatums, self.__saver)
         self.__trainer = Trainer(self.__q_algo, self.__game_api)
         
@@ -72,9 +74,9 @@ class ReinforcementAI(UpdateListener):
         
 game = FlappyBird()
 game_api = FlappyBirdAPI(game)
-ai = ReinforcementAI(game_api, True)
+ai = ReinforcementAI(game_api, False)
 
-# ai.train(200000, False)
+ai.train(200000, False)
 
 game_api.start()
 ai.show()

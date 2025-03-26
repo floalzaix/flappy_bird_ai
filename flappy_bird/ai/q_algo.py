@@ -10,9 +10,6 @@ class QAlgo:
         @param epsilon  The discovery rate exploration(1) -  exploitation(0) 
     """
     
-    COUNTER_SHOW_DATA = 1000000
-    EPISODE_COUNTER_SAVE = 5000
-    
     def __init__(self, alpha, gamma, start_epsilon, decay_epsilon, min_epsilon, nb_params, quantums, saver):
         assert len(quantums) == nb_params, "Errors size don't match"
         
@@ -32,29 +29,6 @@ class QAlgo:
         # To storing the previous state and action
         self.__previous_state = None
         self.__previous_action = None
-        
-        # Counter before checking the data
-        self.__counter_show = QAlgo.COUNTER_SHOW_DATA
-        self.__counter_save = 0
-        
-    # Processing functions
-    def _show_data(self):
-        """ A function to show a simple of the kind of data in the 
-            q matrix
-        """
-        if self.__counter_show <= 0:
-            print("Data simple : ", sample(list(self.__q.items()), 10))
-            self.__counter_show = QAlgo.COUNTER_SHOW_DATA
-            
-        self.__counter_show-= 1
-        
-    def _save_data(self, num_episodes):
-        """ Saves periodicaly QAlgo.COUNTER_SAVE """
-        if num_episodes % QAlgo.EPISODE_COUNTER_SAVE == 0 and self.__counter_save == 0:
-            self.__counter_save = 1
-            self.__saver.write_q_matrix(self.__q, num_episodes, self.__epsilon)
-        elif num_episodes % QAlgo.EPISODE_COUNTER_SAVE == 1:
-            self.__counter_save = 0
 
     # Q-Algo        
     def quantification_state(self, values):
@@ -152,11 +126,8 @@ class QAlgo:
         self.__previous_state = state
         self.__previous_action = action
         
-        # Showing data
-        self._show_data()
-        
         # Saving data
-        self._save_data(num_episodes)
+        self.__saver.save_data(self.__q, num_episodes, self.__epsilon)
         
         return action
     
