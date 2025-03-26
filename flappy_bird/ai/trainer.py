@@ -46,3 +46,6 @@ class Trainer:
                 reward+=  30 / res
             else:
                 reward-= res // 30
+                
+            # Show stats
+            self.__game_api.show_stats(n)

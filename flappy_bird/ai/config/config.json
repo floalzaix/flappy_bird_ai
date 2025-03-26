@@ -11,5 +11,8 @@
   "saver": {
     "file_name": "ai/saves/save.txt",
     "episode_counter_save": 5000
+  },
+  "api": {
+    "episode_counter_stats": 5000
   }
 }
