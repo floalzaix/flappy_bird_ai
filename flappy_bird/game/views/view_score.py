@@ -23,10 +23,10 @@ class ViewScore(UpdateListenerCanvas):
         
     def draw(self):
         """ Draws the text on the view """
-        self.__score_id = self.__view_world.create_text(self.__x, self.__y, anchor = "n", text = self.__score.get_text(), font = ("Arial", 40, "bold"), fill = "white")
+        self.__score_id = self.__view_world.create_text(self.__x, self.__y, anchor = "n", text = self.__score.get_value(), font = ("Arial", 40, "bold"), fill = "white")
         
     def update_canvas(self, event):
         e_id = event.get_id()
         
         if e_id == "increase_score" or e_id == "decrease_score" or e_id == "reset_score":
-            self.__view_world.itemconfig(self.__score_id, text = event.get_new().get_text())
+            self.__view_world.itemconfig(self.__score_id, text = event.get_new().get_value())

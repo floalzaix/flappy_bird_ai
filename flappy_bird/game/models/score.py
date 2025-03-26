@@ -27,5 +27,5 @@ class Score(UpdateSupport):
         self.action_listeners(UpdateEvent("reset_score", None, self))
         
     # Getters setters
-    def get_text(self):
+    def get_value(self):
         return self.__score
