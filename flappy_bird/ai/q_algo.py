@@ -53,7 +53,7 @@ class QAlgo:
         if num_episodes % QAlgo.EPISODE_COUNTER_SAVE == 0 and self.__counter_save == 0:
             self.__counter_save = 1
             self.__saver.write_q_matrix(self.__q, num_episodes, self.__epsilon)
-        else:
+        elif num_episodes % QAlgo.EPISODE_COUNTER_SAVE == 1:
             self.__counter_save = 0
 
     # Q-Algo        

@@ -44,7 +44,8 @@ class FlappyBird:
         
             Do not call before create_game_logic
         """
-        self.__window = Tk(self.__window_title)
+        self.__window = Tk()
+        self.__window.title(self.__window_title)
         
         # Creating the world view
         self.__view_world = ViewWorld(self.__window, self.__window_width, self.__window_height, self.__world, self.__window_bg)

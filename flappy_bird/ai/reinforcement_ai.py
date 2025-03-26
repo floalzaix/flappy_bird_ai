@@ -72,9 +72,9 @@ class ReinforcementAI(UpdateListener):
         
 game = FlappyBird()
 game_api = FlappyBirdAPI(game)
-ai = ReinforcementAI(game_api, False)
+ai = ReinforcementAI(game_api, True)
 
-ai.train(200000, False)
+# ai.train(200000, False)
 
 game_api.start()
 ai.show()
