@@ -73,7 +73,7 @@ class ReinforcementAI(UpdateListener):
         self.__game_api.show()
         
 game = FlappyBird()
-game_api = FlappyBirdAPI(game, get_config_param("api", "episode_counter_stats"))
+game_api = FlappyBirdAPI(game, get_config_param("api", "episodes_before_stats"))
 ai = ReinforcementAI(game_api, False)
 
 ai.train(200000, False)

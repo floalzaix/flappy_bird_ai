@@ -21,7 +21,7 @@ class Trainer:
             data = self.__game_api.get_data()
             
             # AI's action
-            action = self.__q_algo.execute(data, reward, n)
+            action = self.__q_algo.execute(data, reward, n, self.__game_api.get_stats)
             
             # Step in the game + reward
             reward = 0

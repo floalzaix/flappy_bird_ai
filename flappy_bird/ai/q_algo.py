@@ -96,7 +96,7 @@ class QAlgo:
         # Updating matrix
         self.__q[state][action] = qa + self.__alpha * (reward + self.__gamma * qna - qa)
         
-    def execute(self, game_params, reward, num_episodes):
+    def execute(self, game_params, reward, num_episodes, get_stats):
         """ Executes the algorithm : 
         
             * Quantifies the state
@@ -127,7 +127,7 @@ class QAlgo:
         self.__previous_action = action
         
         # Saving data
-        self.__saver.save_data(self.__q, num_episodes, self.__epsilon)
+        self.__saver.save_data(self.__q, num_episodes, self.__epsilon, get_stats)
         
         return action
     

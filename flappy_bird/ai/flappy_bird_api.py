@@ -26,14 +26,15 @@ class FlappyBirdAPI:
             self.__counter_stats = 1
             
             # Getting data
-            data = self.get_game_stat()
+            data = self.get_stats()
             print("Pipe dist            => mean : " + str(data[0][0]) + "\t min : " + str(data[0][1]) + "\t max : " + str(data[0][2]) + "\t std : " + str(data[0][3]))
             print("Bird y               => mean : " + str(data[1][0]) + "\t min : " + str(data[1][1]) + "\t max : " + str(data[1][2]) + "\t std : " + str(data[1][3]))
             print("Bird y velocity      => mean : " + str(data[2][0]) + "\t min : " + str(data[2][1]) + "\t max : " + str(data[2][2]) + "\t std : " + str(data[2][3]))
             print("Score stats          => mean : " + str(data[3][0]) + "\t min : " + str(data[3][1]) + "\t max : " + str(data[3][2]) + "\t std : " + str(data[3][3]))
-            sleep(1)
+            sleep(0.5)
         elif num_episodes % self.__episode_counter_stats != 0:
             self.__counter_stats = 0
+            self.__datas = []
         
     def get_data(self):
         """ Returns the data of the game : vector_next_pipe_center_x, vector_next_pipe_center_y """
@@ -54,7 +55,7 @@ class FlappyBirdAPI:
         
         return (pipe_center_x - bird_center_x, pipe_center_y - bird_center_y, self.__flappy_bird.get_gravity().get_v_y())
     
-    def get_game_stat(self):
+    def get_stats(self):
         """ Calculate the statistics of the game's parameters : pipe's dist,
             bird's y, bird's y velocity.
         """
@@ -62,35 +63,17 @@ class FlappyBirdAPI:
         # Getting the data
         data = np.array(self.__datas)
         
-        # Pipe dist stats
-        dist_pipe_stats = []
-        dist_pipe_stats.append(np.mean(data[:, 0]))
-        dist_pipe_stats.append(np.min(data[:, 0]))
-        dist_pipe_stats.append(np.max(data[:, 0]))
-        dist_pipe_stats.append(np.std(data[:, 0]))
+        # Result
+        res = []
         
-        # Bird y stats
-        bird_stats = []
-        bird_stats.append(np.mean(data[:, 1]))
-        bird_stats.append(np.min(data[:, 1]))
-        bird_stats.append(np.max(data[:, 1]))
-        bird_stats.append(np.std(data[:, 1]))
+        for i in range(4):
+            res.append([])
+            res[i].append(np.mean(data[:, i]))
+            res[i].append(np.min(data[:, i]))
+            res[i].append(np.max(data[:, i]))
+            res[i].append(np.std(data[:, i]))
         
-        # Bird y velocity starts
-        y_v_stats = []
-        y_v_stats.append(np.mean(data[:, 2]))
-        y_v_stats.append(np.min(data[:, 2]))
-        y_v_stats.append(np.max(data[:, 2]))
-        y_v_stats.append(np.std(data[:, 2]))
-        
-        # Score stats
-        score_stats = []
-        score_stats.append(np.mean(data[:, 3]))
-        score_stats.append(np.min(data[:, 3]))
-        score_stats.append(np.max(data[:, 3]))
-        score_stats.append(np.std(data[:, 3]))
-        
-        return (dist_pipe_stats, bird_stats, y_v_stats, score_stats)
+        return res
         
     def step(self, action):
         """ Execute a step of the game 

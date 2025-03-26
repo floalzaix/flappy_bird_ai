@@ -13,6 +13,6 @@
     "episode_counter_save": 5000
   },
   "api": {
-    "episode_counter_stats": 5000
+    "episodes_before_stats": 5000
   }
 }
