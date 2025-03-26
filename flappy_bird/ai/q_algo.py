@@ -35,6 +35,7 @@ class QAlgo:
         
         # Counter before checking the data
         self.__counter_show = QAlgo.COUNTER_SHOW_DATA
+        self.__counter_save = 0
         
     # Processing functions
     def _show_data(self):
@@ -49,8 +50,11 @@ class QAlgo:
         
     def _save_data(self, num_episodes):
         """ Saves periodicaly QAlgo.COUNTER_SAVE """
-        if num_episodes % QAlgo.EPISODE_COUNTER_SAVE == 0:
+        if num_episodes % QAlgo.EPISODE_COUNTER_SAVE == 0 and self.__counter_save == 0:
+            self.__counter_save = 1
             self.__saver.write_q_matrix(self.__q, num_episodes, self.__epsilon)
+        else:
+            self.__counter_save = 0
 
     # Q-Algo        
     def quantification_state(self, values):
