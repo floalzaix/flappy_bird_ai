@@ -11,8 +11,9 @@ class QAlgo:
     """
     
     COUNTER_SHOW_DATA = 1000000
+    EPISODE_COUNTER_SAVE = 5000
     
-    def __init__(self, alpha, gamma, start_epsilon, decay_epsilon, min_epsilon, nb_params, quantums):
+    def __init__(self, alpha, gamma, start_epsilon, decay_epsilon, min_epsilon, nb_params, quantums, saver):
         assert len(quantums) == nb_params, "Errors size don't match"
         
         self.__alpha = alpha
@@ -23,6 +24,7 @@ class QAlgo:
         self.__min_epsilon = min_epsilon
         self.__nb_params = nb_params
         self.__quantums = quantums
+        self.__saver = saver
         
         # The matrice (which is a dict)
         self.__q = {}
@@ -32,18 +34,25 @@ class QAlgo:
         self.__previous_action = None
         
         # Counter before checking the data
-        self.__counter = QAlgo.COUNTER_SHOW_DATA
+        self.__counter_show = QAlgo.COUNTER_SHOW_DATA
         
+    # Processing functions
     def _show_data(self):
         """ A function to show a simple of the kind of data in the 
             q matrix
         """
-        if self.__counter <= 0:
+        if self.__counter_show <= 0:
             print("Data simple : ", sample(list(self.__q.items()), 10))
-            self.__counter = QAlgo.COUNTER_SHOW_DATA
+            self.__counter_show = QAlgo.COUNTER_SHOW_DATA
             
-        self.__counter-= 1
+        self.__counter_show-= 1
         
+    def _save_data(self, num_episodes):
+        """ Saves periodicaly QAlgo.COUNTER_SAVE """
+        if num_episodes % QAlgo.EPISODE_COUNTER_SAVE == 0:
+            self.__saver.write_q_matrix(self.__q, num_episodes, self.__epsilon)
+
+    # Q-Algo        
     def quantification_state(self, values):
         """ Quantifies the state given the game parameters. The parameters
             must be integer float or string but not arrays or tab or dict
@@ -109,7 +118,7 @@ class QAlgo:
         # Updating matrix
         self.__q[state][action] = qa + self.__alpha * (reward + self.__gamma * qna - qa)
         
-    def execute(self, game_params, reward):
+    def execute(self, game_params, reward, num_episodes):
         """ Executes the algorithm : 
         
             * Quantifies the state
@@ -142,7 +151,15 @@ class QAlgo:
         # Showing data
         self._show_data()
         
+        # Saving data
+        self._save_data(num_episodes)
+        
         return action
+    
+    def load_q_matrix(self):
+        """ Loads the q mtrix and epsilon from a file """
+        num_episodes, self.__epsilon, self.__q = self.__saver.read_q_matrix(self.__start_epsilon)
+        return num_episodes
 
     def play(self, game_params):
         """ Allows for the user to play without training the algo """

@@ -6,6 +6,7 @@
     "decay_epsilon": 0.999999,
     "min_epsilon": 0.001,
     "nb_params": 3,
-    "quantums": [50, 7, 100]
+    "quantums": [50, 7, 100],
+    "file_name": "ai/saves/save.txt"
   }
 }

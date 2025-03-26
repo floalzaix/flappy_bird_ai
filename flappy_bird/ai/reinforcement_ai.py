@@ -14,10 +14,15 @@ from flappy_bird_api import FlappyBirdAPI
 from trainer import Trainer
 from q_algo import QAlgo
 
+from saves.saver import Saver
+
 class ReinforcementAI(UpdateListener):
-    """ The AI which trains on a game like Flappy Bird based on Q-Learning """
+    """ The AI which trains on a game like Flappy Bird based on Q-Learning 
     
-    def __init__(self, game_api):
+        @param mem Loads data from a file if True
+    """
+    
+    def __init__(self, game_api, mem):
         # Importing configuration
         self.__alpha = get_config_param("q_algo", "alpha")
         self.__gamma = get_config_param("q_algo", "gamma")
@@ -26,22 +31,29 @@ class ReinforcementAI(UpdateListener):
         self.__min_epsilon = get_config_param("q_algo", "min_epsilon")
         self.__nb_params = get_config_param("q_algo", "nb_params")
         self.__quatums = get_config_param("q_algo", "quantums")
+        self.__file_name = get_config_param("q_algo", "file_name")
         
         self.__game_api = game_api
         
-        self.__q_algo = QAlgo(self.__alpha, self.__gamma, self.__start_epsilon, self.__decay_epsilon, self.__min_epsilon, self.__nb_params, self.__quatums)
+        self.__saver = Saver(self.__file_name)
+        self.__q_algo = QAlgo(self.__alpha, self.__gamma, self.__start_epsilon, self.__decay_epsilon, self.__min_epsilon, self.__nb_params, self.__quatums, self.__saver)
         self.__trainer = Trainer(self.__q_algo, self.__game_api)
+        
+        self.__num_episodes = 0
+        if mem:
+            self.__num_episodes = self.__q_algo.load_q_matrix()
         
         # Adding it self as a game listener
         self.__game_api.add_game_listener(self)
         
     def train(self, nb_episodes, in_thread):
         """ Trains the model according to the number of episodes """
-        if in_thread:
-            thread = Thread(daemon = True, target = self.__trainer.train, args = (nb_episodes, ))
-            thread.start()
-        else:
-            self.__trainer.train(nb_episodes)
+        if nb_episodes > self.__num_episodes:
+            if in_thread:
+                thread = Thread(daemon = True, target = self.__trainer.train, args = (self.__num_episodes, nb_episodes, ))
+                thread.start()
+            else:
+                self.__trainer.train(self.__num_episodes, nb_episodes)
         
     def update(self, event):
         """ Plays the game """
@@ -60,7 +72,7 @@ class ReinforcementAI(UpdateListener):
         
 game = FlappyBird()
 game_api = FlappyBirdAPI(game)
-ai = ReinforcementAI(game_api)
+ai = ReinforcementAI(game_api, False)
 
 ai.train(200000, False)
 
