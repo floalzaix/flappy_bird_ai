@@ -1,27 +1,20 @@
 import math
 
-from game.flappy_bird import FlappyBird
+from trainers.trainer import Trainer
 
-class Trainer:
+class FlappyBirdTrainer(Trainer):
     """ An AI Trainer """
-    
-    def __init__(self, q_algo, game_api):
-        self.__q_algo = q_algo
-        self.__game_api = game_api
         
-    def train(self, num_episodes, nb_episodes):
-        """ Trains accordingly to the number of episodes
-
-            @param mem If true then loads the q matrix from file
-        """
+    def train(self, q_algo, num_episodes, nb_episodes):
+        """ Trains accordingly to the number of episodes """
         reward = 0
         n = num_episodes
         while nb_episodes > n:
             # Getting the game data
-            data = self.__game_api.get_data()
+            data = self._game_api.get_data()
             
             # AI's action
-            action = self.__q_algo.execute(data, reward, n, self.__game_api.get_stats)
+            action = q_algo.execute(data, reward, n, self._game_api.get_stats)
             
             # Step in the game + reward
             reward = 0
@@ -31,7 +24,7 @@ class Trainer:
                 
             #### REVOIR notamment au niveau des plus de 5 sauts
             
-            collision = self.__game_api.step(action)
+            collision = self._game_api.step(action)
             if collision != None:
                 reward = -1000000
                 n+= 1
@@ -48,4 +41,4 @@ class Trainer:
                 reward-= res // 30
                 
             # Show stats
-            self.__game_api.show_stats(n)
+            self._game_api.show_stats(n)

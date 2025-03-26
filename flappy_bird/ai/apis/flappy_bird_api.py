@@ -100,6 +100,11 @@ class FlappyBirdAPI:
         """ Starts the Flappy Bird game """
         self.__flappy_bird.start_game()
         
+    def play(self, action):
+        """ Plays to the game according the ai decision being action """
+        if action == 1:
+            self.bird_jump()
+        
     def reset(self):
         """ Resets the pipes rolling, the gravity and the world """
         self.__flappy_bird.reset()

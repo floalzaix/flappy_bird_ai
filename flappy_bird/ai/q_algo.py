@@ -10,9 +10,10 @@ class QAlgo:
         @param epsilon  The discovery rate exploration(1) -  exploitation(0) 
     """
     
-    def __init__(self, alpha, gamma, start_epsilon, decay_epsilon, min_epsilon, nb_params, quantums, saver):
+    def __init__(self, nb_actions, alpha, gamma, start_epsilon, decay_epsilon, min_epsilon, nb_params, quantums, saver):
         assert len(quantums) == nb_params, "Errors size don't match"
         
+        self.__nb_actions = nb_actions
         self.__alpha = alpha
         self.__gamma = gamma
         self.__epsilon = start_epsilon
@@ -57,7 +58,7 @@ class QAlgo:
             2-uple (state, action)    
         """
         if state not in self.__q: 
-            self.__q[state] = [0, 0]
+            self.__q[state] = [0 for _ in range(self.__nb_actions)]
         return self.__q[state][action]
     
     def choose_next_action(self, state):
@@ -72,9 +73,9 @@ class QAlgo:
             @return The next action discovery or explotation
         """
         if uniform(0, 1) <= self.__epsilon:
-            return choice([0, 1]) # CHECK
+            return choice([i for i in range(self.__nb_actions)]) # CHECK
         
-        return argmax(self.__q.get(state, [0, 1]))
+        return argmax(self.__q.get(state))
     
     def update_q_matrix(self, state, reward, action, next_state):
         """ Update the q matrix that holds the q values of the learning

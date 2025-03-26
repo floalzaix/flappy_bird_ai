@@ -10,20 +10,18 @@ from config.config_manager import get_config_param
 from game.helpers.update_handler import UpdateListener
 
 from game.flappy_bird import FlappyBird
-from flappy_bird_api import FlappyBirdAPI
-from trainer import Trainer
+from ai.apis.flappy_bird_api import FlappyBirdAPI
+from ai.trainers.flappy_bird_trainer import FlappyBirdTrainer
 from q_algo import QAlgo
 
 from saves.saver import Saver
 
 class ReinforcementAI(UpdateListener):
-    """ The AI which trains on a game like Flappy Bird based on Q-Learning 
+    """ The AI which trains on a game like Flappy Bird based on Q-Learning """
     
-        @param mem Loads data from a file if True
-    """
-    
-    def __init__(self, game_api, mem):
+    def __init__(self, trainer, mem):
         # Importing configuration
+        self.__nb_actions = get_config_param("q_algo", "nb_actions")
         self.__alpha = get_config_param("q_algo", "alpha")
         self.__gamma = get_config_param("q_algo", "gamma")
         self.__start_epsilon = get_config_param("q_algo", "start_epsilon")
@@ -36,26 +34,33 @@ class ReinforcementAI(UpdateListener):
         self.__episode_counter_save = get_config_param("saver", "episode_counter_save") # Episodes counter before save
         self.__saver = Saver(self.__file_name, self.__episode_counter_save)
         
-        self.__game_api = game_api
+        self.__game_api = trainer.get_game_api()
+        self.__trainer = trainer
         
-        self.__q_algo = QAlgo(self.__alpha, self.__gamma, self.__start_epsilon, self.__decay_epsilon, self.__min_epsilon, self.__nb_params, self.__quatums, self.__saver)
-        self.__trainer = Trainer(self.__q_algo, self.__game_api)
+        self.__q_algo = QAlgo(self.__nb_actions, self.__alpha, self.__gamma, self.__start_epsilon, self.__decay_epsilon, self.__min_epsilon, self.__nb_params, self.__quatums, self.__saver)
         
         self.__num_episodes = 0
-        if mem:
-            self.__num_episodes = self.__q_algo.load_q_matrix()
         
         # Adding it self as a game listener
         self.__game_api.add_game_listener(self)
         
+    def load_data(self):
+        """ Loads data from the saver's file """
+        self.__num_episodes = self.__q_algo.load_q_matrix()
+        
     def train(self, nb_episodes, in_thread):
-        """ Trains the model according to the number of episodes """
+        """ Trains the model according to the number of episodes
+
+            @param in_thread Executes the training in a thread so that it can
+                             be seen in a tkinter window for instance
+        """
         if nb_episodes > self.__num_episodes:
             if in_thread:
-                thread = Thread(daemon = True, target = self.__trainer.train, args = (self.__num_episodes, nb_episodes, ))
+                thread = Thread(daemon = True, target = self.__trainer.train, args = (self.__q_algo, self.__num_episodes, nb_episodes, ))
                 thread.start()
             else:
-                self.__trainer.train(self.__num_episodes, nb_episodes)
+                self.__trainer.train(self.__q_algo, self.__num_episodes, nb_episodes)
+        self.__num_episodes = nb_episodes
         
     def update(self, event):
         """ Plays the game """
@@ -65,8 +70,9 @@ class ReinforcementAI(UpdateListener):
             
             # AI's action
             action = self.__q_algo.play(data)
-            if action == 1:
-                self.__game_api.bird_jump()
+            
+            # Playing with the api
+            self.__game_api.play(action)
         
     def show(self):
         """ Shows it self in a window calling the app show method """
@@ -74,7 +80,8 @@ class ReinforcementAI(UpdateListener):
         
 game = FlappyBird()
 game_api = FlappyBirdAPI(game, get_config_param("api", "episodes_before_stats"))
-ai = ReinforcementAI(game_api, False)
+trainer = FlappyBirdTrainer(game_api)
+ai = ReinforcementAI(trainer, False)
 
 ai.train(200000, False)
 
